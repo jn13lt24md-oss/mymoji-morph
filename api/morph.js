@@ -3,7 +3,7 @@ const REPLICATE = 'https://api.replicate.com/v1/predictions';
 
 // Model version hashes come from env vars. Copy them from each model's Replicate page (API tab).
 // Input field names differ per model, so check them against that API tab.
-const INSTANT_ID_IMAGE_FIELD = 'face_image';
+const INSTANT_ID_IMAGE_FIELD = 'image';
 const PHOTOMAKER_IMAGE_FIELD = 'input_image';
 
 const NEG_COMMON = 'blurred, low quality';

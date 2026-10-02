@@ -8,6 +8,40 @@ const PHOTOMAKER_IMAGE_FIELD = 'input_image';
 
 const NEG_COMMON = 'blurred, low quality';
 
+// ---- FLUX Kontext routing ----
+const KONTEXT_URL = 'https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-pro/predictions';
+const KEEP = 'Keep this exact person\'s face identity, facial structure, skin tone and hair recognizable. Edit this photo: ';
+const EMOJI_LOOK = ' Redraw as a glossy 3D cartoon emoji sticker with bold clean outlines and vivid saturated colors.';
+
+const K = {
+  '😠': 'make the person look extremely angry and furious: deeply furrowed brows angled sharply down, intense glaring eyes, snarling mouth with gritted teeth, face flushed red.',
+  '😢': 'make the person look very sad: drooping eyebrows, glassy teary eyes, downturned mouth, a tear running down the cheek.',
+  '😮': 'make the person look shocked and surprised: eyebrows raised very high, eyes wide open, mouth open in an O shape.',
+  '😕': 'make the person look very confused: head tilted, one eyebrow raised high, the other lowered, squinting puzzled eyes, mouth twisted to one side.',
+  '😱': 'make the person look terrified: eyes wide open, eyebrows raised high, mouth open in a scream, pale face.',
+  '🤢': 'make the person look disgusted: nose heavily wrinkled, upper lip curled, eyes squinting, head leaning back, slightly greenish skin tint.',
+  '😳': 'make the person look embarrassed and flustered: deeply blushing red cheeks, eyes looking down and away, shy awkward small smile.',
+  '🤪': 'make the person look playful and goofy: huge mischievous grin, one eye wide and one squinting, tongue sticking out, head tilted.',
+  '🤩': 'make the person look thrilled and starstruck: wide sparkling eyes, huge open-mouth smile, glowing excited face, little sparkles around.',
+  '😪': 'make the person look exhausted and sleepy: heavy drooping eyelids, dark circles under the eyes, slack tired mouth, pale drained face.',
+  '😭': 'make the person sob loudly: tears streaming down both cheeks, mouth wide open crying, deeply furrowed brows, red puffy eyes.',
+  '🐍': 'turn the person into Medusa: their hair becomes a mass of living snakes writhing around the head, snake scales on the forehead and cheeks, small fangs, intense piercing gaze.',
+  '🐭': 'turn the person into a rat-headed character: gray and white fur covering the whole head, small pointed rat ears on the sides, whiskers, a small pink rodent nose, beady bright eyes.',
+  '🐯': 'turn the person into a tiger-headed character: orange fur with black stripes covering the whole head, pointed tiger ears, whiskers, small pink nose, fierce golden eyes.',
+  '🐉': 'turn the person into a dragon-headed character: shimmering gold and green scales covering the whole head, pointed dragon horns on top, dragon snout, intense glowing eyes.',
+  '🐶': 'turn the person into a dog-headed character: warm brown and tan fur covering the whole head, floppy dog ears, a dog snout and dog nose, friendly alert expression.',
+};
+// Kontext replaces BOTH styles for these emojis; every other Kontext emoji
+// replaces only the "realistic" (Instant-ID) style.
+const KONTEXT_BOTH = new Set(['😕', '🤢']);
+
+function kontextPrompt(emoji, style) {
+  const k = K[String(emoji).replace(/\uFE0F/g, '')];
+  if (!k) return null;
+  if (style === 'emoji' && !KONTEXT_BOTH.has(String(emoji).replace(/\uFE0F/g, ''))) return null;
+  return KEEP + k + (style === 'emoji' ? EMOJI_LOOK : '');
+}
+
 // emoji: [instantIdPrompt, instantIdNegative, photomakerPrompt, photomakerNegative]
 const T = {
   '😠': [
@@ -173,19 +207,18 @@ function cors(res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-async function runPrediction(version, input) {
-  const r = await fetch(REPLICATE, {
+async function runPrediction(version, input, url) {
+  const r = await fetch(url || REPLICATE, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`,
       'Content-Type': 'application/json',
       Prefer: 'wait=60',
     },
-    body: JSON.stringify({ version, input }),
+    body: JSON.stringify(url ? { input } : { version, input }),
   });
   let p = await r.json();
   if (!r.ok) throw new Error(p.detail || `Replicate error ${r.status}`);
-  // Poll if the "wait" window ended before the model finished.
   while (p.status === 'starting' || p.status === 'processing') {
     await new Promise((ok) => setTimeout(ok, 1500));
     const g = await fetch(p.urls.get, {
@@ -219,7 +252,15 @@ module.exports = async (req, res) => {
       : `data:image/jpeg;base64,${photo_base64}`;
 
     let outputUrl;
-    if (style === 'emoji') {
+    const kPrompt = kontextPrompt(emoji, style);
+    if (kPrompt) {
+      outputUrl = await runPrediction(null, {
+        prompt: kPrompt,
+        input_image: image,
+        output_format: 'jpg',
+        safety_tolerance: 2,
+      }, KONTEXT_URL);
+    } else if (style === 'emoji') {
       if (!process.env.PHOTOMAKER_VERSION) throw new Error('PHOTOMAKER_VERSION is not set on Vercel');
       outputUrl = await runPrediction(process.env.PHOTOMAKER_VERSION, {
         [PHOTOMAKER_IMAGE_FIELD]: image,

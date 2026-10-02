@@ -11,7 +11,7 @@ const NEG_COMMON = 'blurred, low quality';
 // ---- FLUX Kontext routing ----
 const KONTEXT_URL = 'https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-pro/predictions';
 const KEEP = 'Keep this exact person\'s face identity, facial structure, skin tone and hair recognizable. Edit this photo: ';
-const EMOJI_LOOK = ' Redraw as a glossy 3D cartoon emoji sticker with bold clean outlines and vivid saturated colors.';
+const EMOJI_LOOK = ' Then completely restyle the whole image as a cute 3D cartoon emoji character: smooth glossy plastic-like skin, big expressive cartoon eyes, simplified rounded features, bold clean outlines, vivid saturated colors, plain white background, like a Pixar-style sticker. It must not look like a photograph. Keep the hairstyle and hair color so it is still recognizably this person.';
 
 const K = {
   '😠': 'make the person look extremely angry and furious: deeply furrowed brows angled sharply down, intense glaring eyes, snarling mouth with gritted teeth, face flushed red.',
@@ -19,13 +19,13 @@ const K = {
   '😮': 'make the person look shocked and surprised: eyebrows raised very high, eyes wide open, mouth open in an O shape.',
   '😕': 'make the person look very confused: head tilted, one eyebrow raised high, the other lowered, squinting puzzled eyes, mouth twisted to one side.',
   '😱': 'make the person look terrified: eyes wide open, eyebrows raised high, mouth open in a scream, pale face.',
-  '🤢': 'make the person look disgusted: nose heavily wrinkled, upper lip curled, eyes squinting, head leaning back, slightly greenish skin tint.',
+  '🤢': 'give the person a funny "eww, yuck!" face: nose scrunched up, lips pressed and pulled to one side, eyes squinting, eyebrows pinched together, playful comedic reaction.',
   '😳': 'make the person look embarrassed and flustered: deeply blushing red cheeks, eyes looking down and away, shy awkward small smile.',
   '🤪': 'make the person look playful and goofy: huge mischievous grin, one eye wide and one squinting, tongue sticking out, head tilted.',
   '🤩': 'make the person look thrilled and starstruck: wide sparkling eyes, huge open-mouth smile, glowing excited face, little sparkles around.',
   '😪': 'make the person look exhausted and sleepy: heavy drooping eyelids, dark circles under the eyes, slack tired mouth, pale drained face.',
   '😭': 'make the person sob loudly: tears streaming down both cheeks, mouth wide open crying, deeply furrowed brows, red puffy eyes.',
-  '🐍': 'turn the person into Medusa: their hair becomes a mass of living snakes writhing around the head, snake scales on the forehead and cheeks, small fangs, intense piercing gaze.',
+   '🐍': 'transform the person into Medusa from Greek mythology: replace ALL of their hair completely with a thick crown of many living green snakes, each snake with its own head, eyes and flicking tongue, coiling and writhing outward from the scalp in every direction. No normal hair should remain, only snakes. Add subtle green scales on the forehead and cheeks, and glowing yellow-green eyes with an intense stare.',
   '🐭': 'turn the person into a rat-headed character: gray and white fur covering the whole head, small pointed rat ears on the sides, whiskers, a small pink rodent nose, beady bright eyes.',
   '🐯': 'turn the person into a tiger-headed character: orange fur with black stripes covering the whole head, pointed tiger ears, whiskers, small pink nose, fierce golden eyes.',
   '🐉': 'turn the person into a dragon-headed character: shimmering gold and green scales covering the whole head, pointed dragon horns on top, dragon snout, intense glowing eyes.',

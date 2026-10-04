@@ -12,11 +12,11 @@ const NEG_COMMON = 'blurred, low quality';
 const KONTEXT_URL = 'https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-pro/predictions';
 const KEEP = 'Keep this exact person\'s face identity, facial structure, skin tone and hair recognizable. Edit this photo: ';
 const EMOJI_LOOK = ' Then completely restyle the whole image as a cute 3D cartoon emoji character: smooth glossy plastic-like skin, big expressive cartoon eyes, simplified rounded features, bold clean outlines, vivid saturated colors, plain white background, like a Pixar-style sticker. It must not look like a photograph. Keep the hairstyle and hair color so it is still recognizably this person.';
+const PIXAR_LOOK = ' Then restyle the whole image as a Pixar-style 3D animated movie character portrait: soft smooth skin, large expressive eyes, gentle rounded features, warm cinematic lighting, vibrant colors, clean plain background. Keep the face clearly recognizable as this same person, with the same hairstyle, hair color and skin tone. It must not look like a photograph.';
 
 const K = {
   '🐭': 'turn the person into a rat-headed character: gray and white fur covering the whole head, small pointed rat ears on the sides, whiskers, a small pink rodent nose, beady bright eyes.',
   '🐯': 'turn the person into a tiger-headed character: orange fur with black stripes covering the whole head, pointed tiger ears, whiskers, small pink nose, fierce golden eyes.',
-  '🐉': 'turn the person into a dragon-headed character: shimmering gold and green scales covering the whole head, pointed dragon horns on top, dragon snout, intense glowing eyes.',
   '🐶': 'turn the person into a dog-headed character: warm brown and tan fur covering the whole head, floppy dog ears, a dog snout and dog nose, friendly alert expression.',
 };
 // Kontext replaces BOTH styles for these emojis; every other Kontext emoji
@@ -24,10 +24,15 @@ const K = {
 const KONTEXT_BOTH = new Set();
 
 function kontextPrompt(emoji, style) {
-  const k = K[String(emoji).replace(/\uFE0F/g, '')];
-  if (!k) return null;
-  if (style === 'emoji' && !KONTEXT_BOTH.has(String(emoji).replace(/\uFE0F/g, ''))) return null;
-  return KEEP + k + (style === 'emoji' ? EMOJI_LOOK : '');
+  const key = String(emoji).replace(/\uFE0F/g, '');
+  const p = T[key];
+  if (!p) return null;
+  const k = K[key];
+  if (style === 'emoji') {
+    if (!k || !KONTEXT_BOTH.has(key)) return null;
+    return KEEP + k + EMOJI_LOOK;
+  }
+  return KEEP + (k || 'give this person the facial expression of ' + (p[0].split(',')[0]) + '.') + PIXAR_LOOK;
 }
 
 // emoji: [instantIdPrompt, instantIdNegative, photomakerPrompt, photomakerNegative]
@@ -234,7 +239,7 @@ module.exports = async (req, res) => {
     const prompts = lookup(emoji);
     if (!prompts) return res.status(400).json({ error: `No prompt defined for emoji ${emoji}` });
 
-    const style = Array.isArray(styles) && styles[0] === 'emoji' ? 'emoji' : 'realistic';
+    const style = Array.isArray(styles) && styles[0] === 'emoji' ? 'emoji' : 'pixar';
     const image = photo_base64.startsWith('data:')
       ? photo_base64
       : `data:image/jpeg;base64,${photo_base64}`;

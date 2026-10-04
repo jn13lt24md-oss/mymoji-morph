@@ -43,7 +43,7 @@ function kontextPrompt(emoji, style) {
 // emoji: [instantIdPrompt, instantIdNegative, photomakerPrompt, photomakerNegative]
 const T = {
   '😠': [
-    'a person with an extremely angry furious expression, deeply furrowed brow angled sharply downward in a scowl, piercing blazing eyes filled with rage and fire, scowling mouth with a fierce grimace, face completely flushed bright crimson red with intense emotion, angry emoji character, vibrant red and orange tones, bold fierce expression, clean smooth skin',
+    'a person with an extremely angry furious scarlet red shaded expression, deeply furrowed brow angled sharply downward in a scowl, piercing blazing eyes filled with rage and fire, scowling mouth with a fierce grimace, face completely flushed bright crimson red with intense emotion, angry emoji character, vibrant red and orange tones, bold fierce expression, clean smooth skin',
     'sad, happy, smiling, calm, neutral expression, peaceful, serene, soft features, composed, pastel colors, realistic human, blurred, low quality, cute, friendly, scar, wound, demon, marks, shocked, surprised, gasping, screaming, bruise, gash, blemish, dark spot, shadow on face',
     'a photo of an angry red emoji style face img, bright red and orange tones, exaggerated angry expression, maximum intensity, furrowed brow, sharp intense eyes, gritted teeth, fierce and bold, emoji character style, vibrant and saturated colors',
   ],
@@ -78,7 +78,7 @@ const T = {
     'a photo of a very disgusted repulsed emoji img, wrinkled nose in disgust, curled upper lip showing disdain, squinting eyes of disapproval, slightly greenish-gray emoji character, sickly disgusted tones, repulsive expression, clean smooth skin, clearly revolted look',
   ],
   '🥰': [
-    'a person with a loving adoring expression, soft romantic eyes full of affection, gentle warm smile, rosy blushed face, warm loving romantic tones, tender affectionate expression, clean smooth skin, heart-eyes warmth',
+    'a person with a loving adoring pink shaded expression, soft romantic eyes full of affection, gentle warm smile, rosy blushed face, warm loving romantic tones, tender affectionate expression, clean smooth skin, heart-eyes warmth',
     'angry, sad, scared, disgusted, cold, neutral, pale colors, realistic human, blurred, low quality, demon, marks, hostile, mean',
     'a photo of a very loving adoring emoji cartoon character img, soft romantic eyes full of affection, gentle warm smile, round rosy blushed face, bright pink and red emoji cartoon character, warm loving romantic tones, tender affectionate expression, clean smooth skin, heart-eyes warmth',
   ],

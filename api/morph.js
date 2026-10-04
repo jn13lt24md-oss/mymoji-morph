@@ -68,7 +68,7 @@ const T = {
     'a photo of a very scared expression emoji character img, wide frightened eyes full of fear, raised eyebrows high in alarm, slightly open mouth of fear, pale ghostly white face, cold scared tones, frightened trembling expression, clean smooth skin, genuine terror look',
   ],
   '🤢': [
-    'a person with a disgusted repulsed expression, nose heavily wrinkled and scrunched in disgust, upper lip curled upward showing disdain, mouth slightly open showing distaste, eyes narrowed and squinting with disapproval, eyebrows lowered in revulsion, head slightly tilted back as if recoiling, expression of clear disgust and aversion, clean smooth skin',
+    'a person with a disgusted repulsed expression, face colored light green, nose heavily wrinkled and scrunched in disgust, upper lip curled upward showing disdain, mouth slightly open showing distaste, eyes narrowed and squinting with disapproval, eyebrows lowered in revulsion, head slightly tilted back as if recoiling, expression of clear disgust and aversion, clean smooth skin',
     'happy, pleased, surprised, calm, peaceful, warm colors, bright, realistic human, blurred, low quality, demon, marks, loving, kind',
     'a photo of a very disgusted repulsed emoji img, wrinkled nose in disgust, curled upper lip showing disdain, squinting eyes of disapproval, slightly greenish-gray emoji character, sickly disgusted tones, repulsive expression, clean smooth skin, clearly revolted look',
   ],

@@ -175,7 +175,7 @@ const T = {
     'photorealistic, happy, smiling, calm, peaceful, closed eyes, sleeping, angry, furious, confused, surprised, cute mascot, cartoon style, soft colors, delicate',
   ],
   '🤓': [
-    'a person with a sharp intelligent focused expression, stylish glasses or smart eyewear, confident thoughtful gaze, alert bright eyes, clean professional appearance, intellectual vibe, clever composed expression, focused mind expression, pure intelligent person on human body below, natural skin tone',
+    'a sharp intelligent person with thick black-rimmed eyeglasses, confident thoughtful gaze, alert bright eyes, clean professional appearance, intellectual vibe, clever composed expression, focused mind expression, pure intelligent person on human body below, natural skin tone',
     'confused, dumb, silly, distracted, unfocused, scattered, messy hair, unkempt, casual sloppy, weak expression, uncertain, scared, angry, sad, cute, baby face, photorealistic, cartoon character, anime, no glasses, glasses too big, glasses too small, glasses off center, closed eyes',
     'a photo of a smart genius emoji character img, stylish glasses, intelligent focused expression, bright alert eyes, confident thoughtful look, intellectual vibe, clever clever character emoji design style, professional smart design',
     'photorealistic, confused, dumb, silly, distracted, unfocused, messy, unkempt, casual sloppy, weak, uncertain, scared, angry, sad, cute, baby, no glasses, glasses off center, cartoon mascot style, soft colors',

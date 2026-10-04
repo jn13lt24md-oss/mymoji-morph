@@ -23,8 +23,13 @@ const K = {
 // replaces only the "realistic" (Instant-ID) style.
 const KONTEXT_BOTH = new Set();
 
+// These emoji use Instant-ID only (no Kontext, no Pixar)
+const INSTANT_ID_ONLY = new Set(['🐍', '🧙', '🧛', '🧚', '🤡', '😇', '😈', '👑']);
+
 function kontextPrompt(emoji, style) {
   const key = String(emoji).replace(/\uFE0F/g, '');
+  if (INSTANT_ID_ONLY.has(key)) return null;  // ← Add this line
+  
   const p = T[key];
   if (!p) return null;
   const k = K[key];
@@ -38,7 +43,7 @@ function kontextPrompt(emoji, style) {
 // emoji: [instantIdPrompt, instantIdNegative, photomakerPrompt, photomakerNegative]
 const T = {
   '😠': [
-    'a person with an extremely angry furious expression, red-faced, deeply furrowed brow angled sharply downward in a scowl, piercing blazing eyes filled with rage and fire, scowling mouth with a fierce grimace, face completely flushed bright crimson red with intense emotion, angry emoji character, vibrant red and orange tones, bold fierce expression, clean smooth skin',
+    'a person with an extremely angry furious expression, deeply furrowed brow angled sharply downward in a scowl, piercing blazing eyes filled with rage and fire, scowling mouth with a fierce grimace, face completely flushed bright crimson red with intense emotion, angry emoji character, vibrant red and orange tones, bold fierce expression, clean smooth skin',
     'sad, happy, smiling, calm, neutral expression, peaceful, serene, soft features, composed, pastel colors, realistic human, blurred, low quality, cute, friendly, scar, wound, demon, marks, shocked, surprised, gasping, screaming, bruise, gash, blemish, dark spot, shadow on face',
     'a photo of an angry red emoji style face img, bright red and orange tones, exaggerated angry expression, maximum intensity, furrowed brow, sharp intense eyes, gritted teeth, fierce and bold, emoji character style, vibrant and saturated colors',
   ],
@@ -68,7 +73,7 @@ const T = {
     'a photo of a very scared expression emoji character img, wide frightened eyes full of fear, raised eyebrows high in alarm, slightly open mouth of fear, pale ghostly white face, cold scared tones, frightened trembling expression, clean smooth skin, genuine terror look',
   ],
   '🤢': [
-    'a person with a disgusted repulsed expression, face colored light green, nose heavily wrinkled and scrunched in disgust, upper lip curled upward showing disdain, mouth slightly open showing distaste, eyes narrowed and squinting with disapproval, eyebrows lowered in revulsion, head slightly tilted back as if recoiling, expression of clear disgust and aversion, clean smooth skin',
+    'a person with a disgusted repulsed green shaded expression, nose heavily wrinkled and scrunched in disgust, upper lip curled upward showing disdain, mouth slightly open showing distaste, eyes narrowed and squinting with disapproval, eyebrows lowered in revulsion, head slightly tilted back as if recoiling, expression of clear disgust and aversion, clean smooth skin',
     'happy, pleased, surprised, calm, peaceful, warm colors, bright, realistic human, blurred, low quality, demon, marks, loving, kind',
     'a photo of a very disgusted repulsed emoji img, wrinkled nose in disgust, curled upper lip showing disdain, squinting eyes of disapproval, slightly greenish-gray emoji character, sickly disgusted tones, repulsive expression, clean smooth skin, clearly revolted look',
   ],

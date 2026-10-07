@@ -188,6 +188,15 @@ const T = {
 };
 
 function lookup(emoji) {
+  const fresh = newEntry(emoji);
+  if (fresh) {
+    return {
+      idPrompt: fresh.instantid ? fresh.instantid.prompt : '',
+      idNeg: fresh.instantid ? fresh.instantid.negative : '',
+      pmPrompt: fresh.photomaker.prompt,
+      pmNeg: fresh.photomaker.negative || '',
+    };
+  }
   const e = T[String(emoji).replace(/\uFE0F/g, '')] || T[emoji];
   if (!e) return null;
   // Entries with 3 items share one negative between both styles.

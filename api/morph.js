@@ -1,5 +1,5 @@
 // Mymoji morph handler: routes each request to Instant-ID (realistic) or Photomaker (emoji).
-const NEW_EMOJI_PROMPTS = require('./new_emoji_prompts');
+const NEW_EMOJI_PROMPTS = require('./new_emoji_prompts.js');
 const REPLICATE = 'https://api.replicate.com/v1/predictions';
 
 // Model version hashes come from env vars. Copy them from each model's Replicate page (API tab).

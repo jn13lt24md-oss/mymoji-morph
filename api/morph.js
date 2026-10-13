@@ -188,7 +188,7 @@ const T = {
 };
 
 function lookup(emoji) {
-  const fresh = newEntry(emoji);
+  const fresh = NEW_EMOJI_PROMPTS[emoji];
   if (fresh) {
     return {
       idPrompt: fresh.instantid ? fresh.instantid.prompt : '',

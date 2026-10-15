@@ -481,6 +481,9 @@ const CLAY_NEG = 'blurry, low quality, compression artifacts, noise';
 module.exports = async (req, res) => {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method === 'GET') {
+    return res.status(200).json({ ok: true, version: 'clay-routing-v2', clayEmojiCount: CLAY_EMOJI.size });
+  }
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
 
   try {

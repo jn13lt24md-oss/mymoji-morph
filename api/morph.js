@@ -437,6 +437,47 @@ async function runPrediction(version, input, url) {
   return Array.isArray(p.output) ? p.output[0] : p.output;
 }
 
+// ---- Artify: one plan per painter (Instant-ID or fofr/face-to-many) ----
+// Optional env FACE_TO_MANY_VERSION overrides this default version hash.
+const FACE_TO_MANY_DEFAULT_VERSION = 'a07f252abbbd832009640b27f063ea52d87d7a23a185ca165bec23b5adc8deaf';
+const ART_NEG = 'photo, photograph, realistic skin texture, blurry, low quality, pixelated, compression artifacts, noise, extra fingers, watermark, text';
+const ART_NEG_F2M = 'blurry, low quality, compression artifacts, noise';
+const ART_NEG_F2M_PIXEL = 'blurry, low quality, pixelated, compression artifacts, noise';
+const ARTIST_PLAN = {
+  warhol: { model: 'instantid', prompt: 'a silkscreen pop art portrait of a person in the style of Andy Warhol, flat bold neon colors, high contrast, off-register color blocks, 1960s graphic art' },
+  rembrandt: { model: 'instantid', prompt: 'a Baroque portrait of a person in the style of Rembrandt, warm chiaroscuro lighting, deep brown shadows, glowing highlights on the face, rich oil texture' },
+  invader: { model: 'f2m', style: '3D', negative: ART_NEG_F2M, prompt: 'the whole portrait of a person in the French street artist Invader style, built from square pixel mosaic tiles in a limited bold palette, like tiled street art.' },
+  dali: { model: 'instantid', strength: 1.0, prompt: 'a surrealist oil painting of a person in the style of Salvador Dalí, dreamlike melting forms, vast empty desert landscape, hyper-detailed rendering' },
+  kahlo: { model: 'instantid', prompt: 'a self-portrait of a person in the style of Frida Kahlo, frontal gaze, bold saturated colors, lush leaves and flowers, introspective mood' },
+  gaudi: { model: 'instantid', prompt: 'a mosaic portrait of a person in the style of Antoni Gaudí, trencadís broken-tile mosaic, organic flowing curves, vivid ceramic colors, Sagrada Família-inspired ornament' },
+  picasso: { model: 'instantid', prompt: 'a cubist portrait of a person in the style of Pablo Picasso, face seen from several viewpoints, geometric planes, bold black outlines' },
+  lempicka: { model: 'instantid', prompt: 'an Art Deco portrait of a person in the style of Tamara de Lempicka, sleek polished skin, geometric folds, metallic sheen, dramatic side lighting' },
+  munch: { model: 'instantid', strength: 1.0, prompt: 'an expressionist painting of a person in the style of Edvard Munch\'s The Scream, anguished expression, swirling blood-orange sky, wavy landscape' },
+  klimt: { model: 'instantid', prompt: 'a golden Art Nouveau painting of a person in the style of Gustav Klimt, gold leaf, ornate mosaic patterns, swirling decorative robes' },
+  qibaishi: { model: 'instantid', prompt: 'a traditional Chinese ink-wash painting of a person in the style of Qi Baishi, lively black brushwork, touch of red accent, white rice paper background' },
+  hokusai: { model: 'instantid', prompt: 'a Japanese ukiyo-e woodblock print of a person in the style of Katsushika Hokusai, bold outlines, Prussian blue tones, great wave motif' },
+  vangogh: { model: 'instantid', prompt: 'a post-impressionist oil painting of a person in the style of Vincent van Gogh, thick swirling impasto brushstrokes, vibrant blues and yellows, starry night sky' },
+  davinci: { model: 'instantid', prompt: 'a Renaissance oil portrait of a person in the style of Leonardo da Vinci, soft sfumato shading, calm enigmatic expression, hazy distant landscape' },
+  renoir: { model: 'instantid', prompt: 'an Impressionist portrait of a person in the style of Pierre-Auguste Renoir, soft feathery brushstrokes, dappled warm light, rosy skin tones, gentle joyful mood' },
+  boldini: { model: 'instantid', prompt: 'a society portrait of a person in the style of Giovanni Boldini, loose flowing brushwork, luminous elegant fabrics, soft romantic lighting' },
+  vermeer: { model: 'instantid', prompt: 'a Dutch Golden Age portrait of a person in the style of Johannes Vermeer, soft window light, dark neutral background, luminous pearl earring' },
+  sargent: { model: 'instantid', prompt: 'a society portrait of a person in the style of John Singer Sargent, confident bold brushwork, dark elegant background, crisp highlights, refined composure' },
+  lichtenstein: { model: 'f2m', style: '3D', negative: ART_NEG_F2M_PIXEL, prompt: 'a Roy Lichtenstein style comic book pop art panel with thick black outlines of a person, Ben-Day dots and flat primary colors.' },
+  degas: { model: 'instantid', prompt: 'a pastel portrait of a person in the style of Edgar Degas, soft chalky pastel strokes, loose sketched lines, off-centre composition, theatrical light' },
+  murakami: { model: 'instantid', prompt: 'a superflat pop portrait of a person in the style of Takashi Murakami, glossy bright colors, smiling rainbow flowers, anime-inspired cheer' },
+  modigliani: { model: 'instantid', prompt: 'a modernist portrait of a person in the style of Amedeo Modigliani, elongated neck and face, almond-shaped eyes, simplified smooth forms, warm ochre and cream tones' },
+  raphael: { model: 'instantid', prompt: 'a High Renaissance portrait of a person in the style of Raphael, harmonious balanced composition, soft graceful modelling, serene idealized features, warm golden landscape' },
+  gauguin: { model: 'instantid', prompt: 'a post-Impressionist painting of a person in the style of Paul Gauguin, flat areas of bold colour, thick dark outlines, warm tropical palette, saturated colour blocks, decorative Synthetist simplicity' },
+};
+
+// ---- Clay style (fofr/face-to-many) replaces Pixar for these expressions ----
+// angry, happy, sad, confused, scared, disgusted, in love, excited,
+// embarrassed, playful, tired, very upset, disheveled
+const CLAY_EMOJI = new Set(['😠', '😀', '😢', '😕', '😱', '🤢', '🥰', '🤩', '😳', '🤪', '😪', '😭', '🥱']);
+const CLAY_DISHEVELED_PROMPT = 'a clay character portrait of a person just woken up, hair sticking out in every direction, sleepy half-closed eyes, puffy face, pillow crease on cheek, yawning';
+const CLAY_DISHEVELED_NEG = 'blurry, low quality, compression artifacts, noise, neat hair, awake, energetic, formal';
+const CLAY_NEG = 'blurry, low quality, compression artifacts, noise';
+
 module.exports = async (req, res) => {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
@@ -444,7 +485,38 @@ module.exports = async (req, res) => {
 
   try {
     if (!process.env.REPLICATE_API_TOKEN) throw new Error('REPLICATE_API_TOKEN is not set on Vercel');
-    const { photo_base64, emojis, styles } = req.body || {};
+    const { photo_base64, emojis, styles, artist } = req.body || {};
+    if (artist) {
+      const plan = ARTIST_PLAN[artist];
+      if (!photo_base64 || !plan) {
+        return res.status(400).json({ error: `Unknown artist or missing photo: ${artist}` });
+      }
+      const artImage = photo_base64.startsWith('data:')
+        ? photo_base64
+        : `data:image/jpeg;base64,${photo_base64}`;
+      let artUrl;
+      if (plan.model === 'instantid') {
+        if (!process.env.INSTANT_ID_VERSION) throw new Error('INSTANT_ID_VERSION is not set on Vercel');
+        artUrl = await runPrediction(process.env.INSTANT_ID_VERSION, {
+          [INSTANT_ID_IMAGE_FIELD]: artImage,
+          prompt: plan.prompt,
+          negative_prompt: plan.negative || ART_NEG,
+          ip_adapter_scale: plan.strength,
+        });
+      } else {
+        artUrl = await runPrediction(
+          process.env.FACE_TO_MANY_VERSION || FACE_TO_MANY_DEFAULT_VERSION,
+          {
+            image: artImage,
+            style: plan.style,
+            prompt: plan.prompt,
+            negative_prompt: plan.negative,
+          },
+        );
+      }
+      const artBuf = Buffer.from(await (await fetch(artUrl)).arrayBuffer());
+      return res.status(200).json({ image_base64: artBuf.toString('base64') });
+    }
     if (!photo_base64 || !Array.isArray(emojis) || emojis.length === 0) {
       return res.status(400).json({ error: 'photo_base64 and emojis are required' });
     }
@@ -459,7 +531,8 @@ module.exports = async (req, res) => {
       : `data:image/jpeg;base64,${photo_base64}`;
 
     let outputUrl;
-    const kPrompt = kontextPrompt(emoji, style);
+    const isClay = style === 'pixar' && CLAY_EMOJI.has(normEmoji(emoji));
+    const kPrompt = isClay ? null : kontextPrompt(emoji, style);
     if (kPrompt) {
       outputUrl = await runPrediction(null, {
         prompt: kPrompt,
@@ -467,6 +540,19 @@ module.exports = async (req, res) => {
         output_format: 'jpg',
         safety_tolerance: 2,
       }, KONTEXT_URL);
+    } else if (isClay) {
+      const isDisheveled = normEmoji(emoji) === '🥱';
+      outputUrl = await runPrediction(
+        process.env.FACE_TO_MANY_VERSION || FACE_TO_MANY_DEFAULT_VERSION,
+        {
+          image,
+          style: 'Clay',
+          prompt: isDisheveled ? CLAY_DISHEVELED_PROMPT : 'a clay character portrait, ' + prompts.idPrompt,
+          negative_prompt: isDisheveled
+            ? CLAY_DISHEVELED_NEG
+            : (prompts.idNeg ? prompts.idNeg + ', ' + CLAY_NEG : CLAY_NEG),
+        },
+      );
     } else if (style === 'emoji') {
       if (!process.env.PHOTOMAKER_VERSION) throw new Error('PHOTOMAKER_VERSION is not set on Vercel');
       outputUrl = await runPrediction(process.env.PHOTOMAKER_VERSION, {

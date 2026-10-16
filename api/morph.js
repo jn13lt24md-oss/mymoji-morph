@@ -228,8 +228,8 @@ function kontextPrompt(emoji, style) {
     const block = fresh.kontext || fresh.pixar;
     return block ? block.prompt : null; // no Kontext/Pixar block: InstantID
   }
-  if (INSTANT_ID_ONLY.has(key)) return null;  // ← Add this line
-  
+  if (INSTANT_ID_ONLY.has(key)) return null;
+
   const p = T[key];
   if (!p) return null;
   const k = K[key];
@@ -482,7 +482,7 @@ module.exports = async (req, res) => {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method === 'GET') {
-    return res.status(200).json({ ok: true, version: 'clay-routing-v2', clayEmojiCount: CLAY_EMOJI.size, artistCount: Object.keys(ARTIST_PLAN).length });
+    return res.status(200).json({ ok: true, version: 'clay-restored-v5', clayEmojiCount: CLAY_EMOJI.size, artistCount: Object.keys(ARTIST_PLAN).length });
   }
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
 

@@ -466,6 +466,7 @@ const PULID_URL = 'https://api.replicate.com/v1/models/bytedance/pulid/predictio
 const PULID_ARTISTS = new Set([
   'rembrandt', 'gaudi', 'picasso', 'lempicka', 'munch', 'klimt', 'davinci',
   'renoir', 'boldini', 'vermeer', 'sargent', 'modigliani', 'raphael', 'degas',
+  'kahlo',
 ]);
 
 // ---- I Could Be...: one PuLID prompt per character (owner's list) ----
@@ -681,6 +682,25 @@ cb('cyndi_lauper',
   `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, sleek modern hairstyle, plain brown hair, minimalist makeup, monochrome styling, mature formal appearance, dull expression`);
 cb('madonna',
   `Photorealistic head-only portrait of Madonna in her 1984 "Like a Virgin" music video, preserve the subject's recognizable facial identity, iconic tousled blonde hair with dark roots, expressive blue eyes, defined eyebrows, youthful 1980s facial features, playful confident expression, bold red lipstick, layered silver necklaces, distinctive black ribbon choker, large cross pendant earrings, white lace and satin bridal-inspired outfit details near the neckline, signature 1980s pop fashion aesthetic, soft glamorous cinematic lighting, realistic skin texture, sharp focus, ultra-detailed.`,
+cb('nuwa',
+  `Photorealistic head-only portrait of Nüwa (Nügua), the ancient Chinese creator goddess, preserve the subject's recognizable facial identity, elegant divine Chinese features, intricate traditional black hair arranged in an elaborate ancient Chinese updo, ornate gold phoenix crown, delicate jade hairpins, flowing silk ribbons, refined red and gold imperial robes visible around the shoulders, subtle serpent-inspired scales gracefully blending along the sides of the neck and jawline, luminous jade-green accents, wise and compassionate expression, mythological Chinese elegance, celestial golden lighting, majestic ancient Chinese atmosphere, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, modern hairstyle, modern clothing, Western royal crown, exaggerated snake head, full snake body, monstrous face, horror gore`);
+cb('geisha',
+  `Photorealistic head-only portrait of a traditional Japanese geisha, preserve the subject's recognizable facial identity, elegant jet-black hair styled in a traditional shimada updo, delicate ornamental kanzashi hairpins, refined white oshiroi makeup, precisely defined red lips, subtle red accents around the eyes, graceful dark eyes, composed and dignified expression, luxurious silk kimono collar with intricate traditional Japanese patterns, tasteful red and gold details, soft lantern lighting, authentic Japanese cultural elegance, cinematic portrait photography, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, modern hairstyle, modern makeup, Western bridal dress, exaggerated makeup, costume caricature, Chinese imperial crown`);
+cb('korean_empress',
+  `Photorealistic head-only portrait of a Korean empress inspired by the Korean Empire's late Joseon-era royal court, preserve the subject's recognizable facial identity, elegant Korean facial features, traditional dark hair arranged in a refined royal updo, ornate gold royal hair ornaments, delicate jade and pearl accessories, luxurious crimson and gold ceremonial hanbok, intricate embroidered collar, dignified and commanding expression, understated traditional Korean makeup, historically inspired Korean imperial elegance, rich silk textures, warm palace lighting, majestic royal atmosphere, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, Japanese geisha makeup, Chinese phoenix crown, European tiara, modern hairstyle, modern clothing, exaggerated accessories, inaccurate fantasy armor`);
+cb('shangdi',
+  `Photorealistic head-only portrait of Shàngdì (Tàidì), the supreme God of Heaven in ancient Chinese religious tradition, preserve the subject's recognizable facial identity, majestic East Asian male features, long flowing silver-white hair and beard, profound wise eyes, serene yet commanding expression, elaborate ancient Chinese celestial crown adorned with gold and jade ornaments, luxurious golden imperial robes visible around the shoulders, intricate heavenly cloud and dragon embroidery, subtle celestial radiance surrounding the head, ethereal golden light, majestic heavenly palace atmosphere, divine authority and timeless wisdom, cinematic portrait photography, realistic skin texture, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, clean-shaven face, modern hairstyle, Western royal crown, European armor, Japanese samurai outfit, demonic appearance, exaggerated fantasy monster features, excessive glowing effects`);
+cb('prince_charming',
+  `Photorealistic head-only portrait of the classic fairy-tale Prince Charming, preserve the subject's recognizable facial identity, exceptionally handsome young royal with symmetrical features, strong jawline, clear blue eyes, neatly styled golden-blond hair swept back, clean-shaven face, confident romantic expression, elegant royal blue and white ceremonial jacket with intricate gold embroidery, high collar, jeweled accents, polished aristocratic appearance, refined European fairy-tale prince aesthetic, soft golden rim lighting, luxurious storybook palace atmosphere, realistic skin texture, cinematic portrait photography, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, beard, heavy mustache, messy unkempt hair, dark gothic clothing, villainous expression, modern casual clothing, armor helmet, exaggerated facial features`);
+cb('mozart',
+  `Photorealistic head-only portrait of Wolfgang Amadeus Mozart, preserve the subject's recognizable facial identity and historical appearance, 18th-century Austrian composer with a pale complexion, expressive dark eyes, refined facial features, powdered white hair styled in an elaborate period wig with curled sides and a tied-back ponytail, clean-shaven face, confident intellectual expression, elegant 18th-century aristocratic attire with a high white cravat, richly textured burgundy coat with gold embroidery, authentic Classical-era European fashion, warm candlelit ambiance, subtle Baroque portrait-painting atmosphere rendered as realistic photography, natural skin texture, cinematic lighting, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, modern haircut, modern clothing, facial hair, beard, mustache, long loose hair, contemporary suit, exaggerated expression, fantasy costume, musical instruments covering the face`);
+
   `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, dark brunette hair, modern minimalist styling, no jewelry, heavy aging effects, exaggerated makeup, contemporary fashion`);
 
 module.exports = async (req, res) => {
@@ -689,7 +709,7 @@ module.exports = async (req, res) => {
   if (req.method === 'GET') {
     return res.status(200).json({
       ok: true,
-      version: 'photomaker-style-v10',
+      version: 'photomaker-style-v12',
       couldBeCount: Object.keys(COULD_BE).length,
       emojiCount: EMOJI_PROMPTS.length,
       artistCount: Object.keys(ARTIST_PLAN).length,

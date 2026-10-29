@@ -682,6 +682,7 @@ cb('cyndi_lauper',
   `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, sleek modern hairstyle, plain brown hair, minimalist makeup, monochrome styling, mature formal appearance, dull expression`);
 cb('madonna',
   `Photorealistic head-only portrait of Madonna in her 1984 "Like a Virgin" music video, preserve the subject's recognizable facial identity, iconic tousled blonde hair with dark roots, expressive blue eyes, defined eyebrows, youthful 1980s facial features, playful confident expression, bold red lipstick, layered silver necklaces, distinctive black ribbon choker, large cross pendant earrings, white lace and satin bridal-inspired outfit details near the neckline, signature 1980s pop fashion aesthetic, soft glamorous cinematic lighting, realistic skin texture, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, dark brunette hair, modern minimalist styling, no jewelry, heavy aging effects, exaggerated makeup, contemporary fashion`);
 cb('nuwa',
   `Photorealistic head-only portrait of Nüwa (Nügua), the ancient Chinese creator goddess, preserve the subject's recognizable facial identity, elegant divine Chinese features, intricate traditional black hair arranged in an elaborate ancient Chinese updo, ornate gold phoenix crown, delicate jade hairpins, flowing silk ribbons, refined red and gold imperial robes visible around the shoulders, subtle serpent-inspired scales gracefully blending along the sides of the neck and jawline, luminous jade-green accents, wise and compassionate expression, mythological Chinese elegance, celestial golden lighting, majestic ancient Chinese atmosphere, sharp focus, ultra-detailed.`,
   `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, modern hairstyle, modern clothing, Western royal crown, exaggerated snake head, full snake body, monstrous face, horror gore`);
@@ -701,15 +702,13 @@ cb('mozart',
   `Photorealistic head-only portrait of Wolfgang Amadeus Mozart, preserve the subject's recognizable facial identity and historical appearance, 18th-century Austrian composer with a pale complexion, expressive dark eyes, refined facial features, powdered white hair styled in an elaborate period wig with curled sides and a tied-back ponytail, clean-shaven face, confident intellectual expression, elegant 18th-century aristocratic attire with a high white cravat, richly textured burgundy coat with gold embroidery, authentic Classical-era European fashion, warm candlelit ambiance, subtle Baroque portrait-painting atmosphere rendered as realistic photography, natural skin texture, cinematic lighting, sharp focus, ultra-detailed.`,
   `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, modern haircut, modern clothing, facial hair, beard, mustache, long loose hair, contemporary suit, exaggerated expression, fantasy costume, musical instruments covering the face`);
 
-  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, dark brunette hair, modern minimalist styling, no jewelry, heavy aging effects, exaggerated makeup, contemporary fashion`);
-
 module.exports = async (req, res) => {
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method === 'GET') {
     return res.status(200).json({
       ok: true,
-      version: 'photomaker-style-v12',
+      version: 'photomaker-style-v13',
       couldBeCount: Object.keys(COULD_BE).length,
       emojiCount: EMOJI_PROMPTS.length,
       artistCount: Object.keys(ARTIST_PLAN).length,

@@ -700,6 +700,7 @@ cb('prince_charming',
   `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, beard, heavy mustache, messy unkempt hair, dark gothic clothing, villainous expression, modern casual clothing, armor helmet, exaggerated facial features`);
 cb('mozart',
   `Photorealistic head-only portrait of Wolfgang Amadeus Mozart, preserve the subject's recognizable facial identity and historical appearance, 18th-century Austrian composer with a pale complexion, expressive dark eyes, refined facial features, powdered white hair styled in an elaborate period wig with curled sides and a tied-back ponytail, clean-shaven face, confident intellectual expression, elegant 18th-century aristocratic attire with a high white cravat, richly textured burgundy coat with gold embroidery, authentic Classical-era European fashion, warm candlelit ambiance, subtle Baroque portrait-painting atmosphere rendered as realistic photography, natural skin texture, cinematic lighting, sharp focus, ultra-detailed.`,
+  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, modern haircut, modern clothing, facial hair, beard, mustache, long loose hair, contemporary suit, exaggerated expression, fantasy costume, musical instruments covering the face`);
 
 // ---- I Could Be...: second batch (owner's list) ----
 cb('raiden',
@@ -837,8 +838,6 @@ cb('anastasia',
 cb('athena',
   `Photorealistic portrait of Athena, Greek goddess of wisdom, strategy and war, preserve the subject's recognizable facial identity, majestic intelligent feminine beauty, piercing gray-blue eyes, long dark brown hair partially tucked beneath an ornate ancient Greek Corinthian helmet, elegant golden olive-leaf crown, intricate gold and bronze armor with subtle owl and Greek key motifs, delicate gold jewelry, calm strategic expression, subtle ancient Acropolis atmosphere, dramatic golden sunlight, realistic skin texture, cinematic mythological portrait photography, sharp focus, ultra-detailed.`,
   `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, masculine features, exaggerated warrior aggression, modern military helmet, medieval knight armor, excessive weapons`);
-
-  `cartoon, anime, Pixar, 3D CGI, illustration, painting, plastic skin, artificial face, altered identity, modern haircut, modern clothing, facial hair, beard, mustache, long loose hair, contemporary suit, exaggerated expression, fantasy costume, musical instruments covering the face`);
 
 module.exports = async (req, res) => {
   cors(res);

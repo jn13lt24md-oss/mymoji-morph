@@ -845,7 +845,7 @@ module.exports = async (req, res) => {
   if (req.method === 'GET') {
     return res.status(200).json({
       ok: true,
-      version: 'photomaker-style-v15',
+      version: 'photomaker-style-v16',
       couldBeCount: Object.keys(COULD_BE).length,
       emojiCount: EMOJI_PROMPTS.length,
       artistCount: Object.keys(ARTIST_PLAN).length,
@@ -958,4 +958,9 @@ module.exports = async (req, res) => {
   } catch (e) {
     return res.status(500).json({ error: String(e.message || e) });
   }
+
+// Longest run time Vercel allows this function (seconds), so slow Artify and
+// "I Could Be..." portraits can finish instead of being cut off.
+module.exports.config = { maxDuration: 300 };
+
 };
